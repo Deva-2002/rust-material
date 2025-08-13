@@ -277,3 +277,113 @@
 //         println!("{number}");
 //     }
 // }
+
+//Ownership is Rust’s feature that enables Rust to make memory safety guarantees without needing a garbage collector.
+//Ownership is a set of rules that govern how a Rust program manages memory
+//Some languages have garbage collection that regularly looks for no-longer-used memory as the program runs; in other languages, the programmer must explicitly allocate and free the memory.
+//Rust uses a third approach: memory is managed through a system of ownership with a set of rules that the compiler checks
+//The stack stores values in the order it gets them and removes the values in the opposite order. This is referred to as last in, first out
+//Adding data is called pushing onto the stack, and removing data is called popping off the stack. 
+//All data stored on the stack must have a known, fixed size. 
+//Data with an unknown size at compile time or a size that might change must be stored on the heap instead.
+//The heap is less organized: when you put data on the heap, you request a certain amount of space. The memory allocator finds an empty spot in the heap that is big enough, marks it as being in use, and returns a pointer, which is the address of that location. This process is called allocating on the heap 
+//Because the pointer to the heap is a known, fixed size, you can store the pointer on the stack, but when you want the actual data, you must follow the pointer.
+//Pushing to the stack is faster than allocating on the heap because the allocator never has to search for a place to store new data; that location is always at the top of the stack.
+//Accessing data in the heap is generally slower than accessing data on the stack because you have to follow a pointer to get there.
+//When your code calls a function, the values passed into the function (including, potentially, pointers to data on the heap) and the function’s local variables get pushed onto the stack. When the function is over, those values get popped off the stack
+//Ownership Rules
+// First, let’s take a look at the ownership rules. Keep these rules in mind as we work through the examples that illustrate them:
+
+// Each value in Rust has an owner.
+// There can only be one owner at a time.
+// When the owner goes out of scope, the value will be dropped.
+
+    // {                      // s is not valid here, since it's not yet declared
+    //     let s = "hello";   // s is valid from this point forward
+
+    //     // do stuff with s
+    // }                      // this scope is now over, and s is no longer valid
+
+
+// In other words, there are two important points in time here:
+
+// When s comes into scope, it is valid.
+// It remains valid until it goes out of scope.
+
+
+//string literal -- it is static (used if we know that size of string is fixed)
+//it is faster and efficent
+// fn main(){
+//     let  s="hello";
+//     // s.push_str("world"); -- you cant do this even if you make it mutable
+//     println!("{s}");
+// }
+
+//this a different type-String(this is stored in heap, since its value can change during compilation);
+//String::from -- this is requesting memory from heap
+// fn main(){
+//     let mut s=String::from("hello");
+//     s.push_str(" World");
+//     println!("{s}")
+// }
+
+
+// {
+//     let s = String::from("hello"); // s is valid from this point forward
+
+//     // do stuff with s
+// }                                  // this scope is now over, and s is no
+                                       // longer valid
+
+//We can probably guess what this is doing: “bind the value 5 to x; then make a copy of the value in x and bind it to y.”
+// We now have two variables, x and y, and both equal 5
+
+//    let x = 5;
+//   let y = x;
+
+//its different in this case
+// let s1 = String::from("hello");
+// let s2 = s1;
+
+//A String is made up of three parts, shown on the left: a pointer to the memory that holds the contents of the string, a length, and a capacity. This group of data is stored on the stack.
+// On the right is the memory on the heap that holds the content
+//The length is how much memory, in bytes, the contents of the String are currently using. The capacity is the total amount of memory, in bytes, that the String has received from the allocator
+//https://doc.rust-lang.org/book/img/trpl04-01.svg
+
+
+//When we assign s1 to s2, the String data is copied, meaning we copy the pointer, the length, and the capacity that are on the stack.
+// We do not copy the data on the heap that the pointer refers to
+// https://doc.rust-lang.org/book/img/trpl04-02.svg
+
+// if they copied whats in heap, it will become a very expensive operation
+// https://doc.rust-lang.org/book/img/trpl04-03.svg
+
+
+// To ensure memory safety, after the line let s2 = s1;, Rust considers s1 as no longer valid.
+// that means you can no longer do this
+
+// fn main(){
+//     let s1 = String::from("hello");
+//     let s2 = s1;
+
+//     println!("{s1}, world!");
+//you can print s2
+// }
+
+
+//With only s2 valid, when it goes out of scope it alone will free the memory, and we’re done.
+
+// When you assign a completely new value to an existing variable, Rust will call drop and free the original value’s memory immediately
+    // let mut s = String::from("hello");
+    // s = String::from("ahoy");
+
+    // println!("{s}, world!"); -- wil print ahoy world
+// https://doc.rust-lang.org/book/img/trpl04-05.svg
+
+
+//If we do want to deeply copy the heap data of the String, not just the stack data, we can use a common method called clone
+//now s1 and s2 can be used
+//    let s1 = String::from("hello");
+//     let s2 = s1.clone();
+
+//     println!("s1 = {s1}, s2 = {s2}");
