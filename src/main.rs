@@ -168,3 +168,14 @@
 
 //     println!("{first},{second}");
 // }
+
+// use std::io;
+// fn main(){
+//     let arr=[1,2,3,4,5];
+//     println!("enter an index value");
+//     let mut index=String::new();
+//     io::stdin().read_line(&mut index).expect("invalid input");
+//     let index:usize=index.trim().parse().expect("error while parsing");
+//     let element=arr[index];
+//     println!("element at index {index} is : {element}");
+// }
