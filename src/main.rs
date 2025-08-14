@@ -566,3 +566,118 @@
 //     assert_eq!(a1,&[2,3]);
 //     println!("{a1:?}")
 // }
+
+// structs
+// A struct, or structure, is a custom data type that lets you package together and name multiple related values that make up a meaningful group
+// #[derive(Debug)]
+// struct User {
+//     active: bool,
+//     username: String,
+//     email: String,
+//     sign_in_count: u64,
+// }
+
+// fn main() {
+//     let mut user1 = User {
+//         active: true,
+//         username: String::from("someusername123"),
+//         email: String::from("someone@example.com"),
+//         sign_in_count: 1,
+//     };
+
+//     user1.email = String::from("anotheremail@example.com");
+//     //you cant mark one specific field as mutable in a struct
+//     //you can make the entire struct mutable
+//     println!("{user1:?}");
+
+//     let user2 = User {
+//         email: String::from("another@example.com"),
+//         ..user1
+//         //means remaining field should be filled nu user1 properties
+//     };
+
+//     println!("{user2:?}")
+// }
+
+// Using Tuple Structs Without Named Fields to Create Different Types
+
+// #[derive(Debug)]
+// struct Color(i32, i32, i32);
+// #[derive(Debug)]
+// struct Point(i32, i32, i32);
+
+// fn main() {
+//     let black = Color(0, 0, 0);
+//     let origin = Point(0, 0, 0);
+//     println!("{black:?}")
+// }
+
+//Ownership of Struct Data
+// struct User {
+//     active: bool,
+//     username: &str,
+//     email: &str,
+//     sign_in_count: u64,
+// }
+
+// fn main() {
+//     let user1 = User {
+//         active: true,
+//         username: "someusername123",
+//         email: "someone@example.com",
+//         sign_in_count: 1,
+//     };
+// }
+//this will throw an error because we need to specify lifetime for &str,
+//ie if it goes out of scope, thr struct should also go out of scope
+
+// #[derive(Debug)]
+// struct Rect{
+//     width:f32,
+//     height:f32
+// }
+
+// fn main(){
+//     let r1=Rect{
+//         width:10.0,
+//         height:10.0
+//     };
+
+//     println!("area is: {}",rect_area(r1));
+// }
+
+// fn rect_area(r:Rect)->f32{
+//     return r.height*r.width;
+// }
+
+//Method Syntax
+
+//Methods are similar to functions: we declare them with the fn keyword and a name, they can have parameters and a return value, and they contain some code that’s run when the method is called from somewhere else.
+// Unlike functions, methods are defined within the context of a struct (or an enum or a trait object), and their first parameter is always self, which represents the instance of the struct the method is being called on.
+//All functions defined within an impl block are called associated functions because they’re associated with the type named after the impl
+
+// struct Rect{
+//     width:f32,
+//     height:f32
+// }
+
+// impl Rect{
+//     fn area(&self)->f32{
+//         return self.width*self.height;
+//     }
+
+//     fn print_something(){
+//         print!("something")
+//     }
+// }
+
+// fn main(){
+//         let r1=Rect{
+//         width:10.0,
+//         height:10.0
+//     };
+
+//     println!("area is: {}",r1.area()); //area is a method (it will work)
+//     // println!("area is: {}",r1.print_something()); //this will not work (since it is a static function)
+//     Rect::print_something();
+// }
