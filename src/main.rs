@@ -681,3 +681,51 @@
 //     // println!("area is: {}",r1.print_something()); //this will not work (since it is a static function)
 //     Rect::print_something();
 // }
+
+//Enums
+//Enums allow you to define a type by enumerating its possible variants
+
+// #[derive(Debug)]
+// enum iptypes{
+//     v4,
+//     v6
+// }
+
+// #[derive(Debug)]
+// struct ipaddress{
+//     type_of:iptypes,
+//     address:String
+// }
+
+// fn main(){
+//     let user1=ipaddress{
+//         type_of:iptypes::v4,
+//         address:String::from("ibm/devops/admin/1")
+//     };
+
+//     println!("{user1:?}")
+// }
+
+//option enum
+//match is used for pattern matching
+//option enum is used when somethin can return a none
+
+// fn main() {
+//     let text = "hello world";
+//     let target = 'o';
+
+//     match find_char_index(text, target) {
+//         Some(index) => println!("'{}' found at index {}", target, index),
+//         None => println!("'{}' not found in \"{}\"", target, text),
+//     }
+// }
+
+// fn find_char_index(s: &str, c: char) -> Option<usize> {
+//     for (i, ch) in s.chars().enumerate() {
+//         if ch == c {
+//             return Some(i); // Found → return Some(index)
+//         }
+//     }
+//     None // Not found → return None
+// }
+
