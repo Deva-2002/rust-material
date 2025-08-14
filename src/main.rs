@@ -31,11 +31,10 @@
 //     }
 // }
 
-//cargo.lock - store exact verion of dependencies your project is build in 
+//cargo.lock - store exact verion of dependencies your project is build in
 // (so it remains constant across development untill you explicitly change it)
 
 //cargo update - to update the dependencies
-
 
 //cannot do this since by default every variable in rust is immutable
 //variables are immutable by default, you can make them mutable by adding mut in front of the variable name
@@ -54,11 +53,10 @@
 //     println!("x is: {x}");
 // }
 
-
 //constants-- you aren’t allowed to use mut with constants. Constants aren’t just immutable by default—they’re always immutable
 //ex: const THREE_HOURS_IN_SECONDS: u32 = 60 * 60 * 3;
 
-//shadowing --you can declare a new variable with the same name as a previous variable. 
+//shadowing --you can declare a new variable with the same name as a previous variable.
 // Rustaceans say that the first variable is shadowed by the second, which means that the second variable is what the compiler will see when you use the name of the variable.
 
 // fn main(){
@@ -118,7 +116,6 @@
 //     let heart_eyed_cat = '😻';
 //     println!("{heart_eyed_cat}");
 // }
-
 
 // Compound Types
 // Compound types can group multiple values into one type. Rust has two primitive compound types: tuples and arrays.
@@ -180,7 +177,7 @@
 //     println!("element at index {index} is : {element}");
 // }
 
-// functions 
+// functions
 // fn main() {
 //     another_function(5);
 // }
@@ -257,7 +254,6 @@
 //     }
 // }
 
-
 //2nd way
 // fn main(){
 //     let arr=[1,2,3,4,5];
@@ -265,7 +261,6 @@
 //         println!("{elements}");
 //     }
 // }
-
 
 //printing numbers
 // fn main(){
@@ -283,10 +278,10 @@
 //Some languages have garbage collection that regularly looks for no-longer-used memory as the program runs; in other languages, the programmer must explicitly allocate and free the memory.
 //Rust uses a third approach: memory is managed through a system of ownership with a set of rules that the compiler checks
 //The stack stores values in the order it gets them and removes the values in the opposite order. This is referred to as last in, first out
-//Adding data is called pushing onto the stack, and removing data is called popping off the stack. 
-//All data stored on the stack must have a known, fixed size. 
+//Adding data is called pushing onto the stack, and removing data is called popping off the stack.
+//All data stored on the stack must have a known, fixed size.
 //Data with an unknown size at compile time or a size that might change must be stored on the heap instead.
-//The heap is less organized: when you put data on the heap, you request a certain amount of space. The memory allocator finds an empty spot in the heap that is big enough, marks it as being in use, and returns a pointer, which is the address of that location. This process is called allocating on the heap 
+//The heap is less organized: when you put data on the heap, you request a certain amount of space. The memory allocator finds an empty spot in the heap that is big enough, marks it as being in use, and returns a pointer, which is the address of that location. This process is called allocating on the heap
 //Because the pointer to the heap is a known, fixed size, you can store the pointer on the stack, but when you want the actual data, you must follow the pointer.
 //Pushing to the stack is faster than allocating on the heap because the allocator never has to search for a place to store new data; that location is always at the top of the stack.
 //Accessing data in the heap is generally slower than accessing data on the stack because you have to follow a pointer to get there.
@@ -298,18 +293,16 @@
 // There can only be one owner at a time.
 // When the owner goes out of scope, the value will be dropped.
 
-    // {                      // s is not valid here, since it's not yet declared
-    //     let s = "hello";   // s is valid from this point forward
+// {                      // s is not valid here, since it's not yet declared
+//     let s = "hello";   // s is valid from this point forward
 
-    //     // do stuff with s
-    // }                      // this scope is now over, and s is no longer valid
-
+//     // do stuff with s
+// }                      // this scope is now over, and s is no longer valid
 
 // In other words, there are two important points in time here:
 
 // When s comes into scope, it is valid.
 // It remains valid until it goes out of scope.
-
 
 //string literal -- it is static (used if we know that size of string is fixed)
 //it is faster and efficent
@@ -327,13 +320,12 @@
 //     println!("{s}")
 // }
 
-
 // {
 //     let s = String::from("hello"); // s is valid from this point forward
 
 //     // do stuff with s
 // }                                  // this scope is now over, and s is no
-                                       // longer valid
+// longer valid
 
 //We can probably guess what this is doing: “bind the value 5 to x; then make a copy of the value in x and bind it to y.”
 // We now have two variables, x and y, and both equal 5
@@ -350,14 +342,12 @@
 //The length is how much memory, in bytes, the contents of the String are currently using. The capacity is the total amount of memory, in bytes, that the String has received from the allocator
 //https://doc.rust-lang.org/book/img/trpl04-01.svg
 
-
 //When we assign s1 to s2, the String data is copied, meaning we copy the pointer, the length, and the capacity that are on the stack.
 // We do not copy the data on the heap that the pointer refers to
 // https://doc.rust-lang.org/book/img/trpl04-02.svg
 
 // if they copied whats in heap, it will become a very expensive operation
 // https://doc.rust-lang.org/book/img/trpl04-03.svg
-
 
 // To ensure memory safety, after the line let s2 = s1;, Rust considers s1 as no longer valid.
 // that means you can no longer do this
@@ -370,16 +360,14 @@
 //you can print s2
 // }
 
-
 //With only s2 valid, when it goes out of scope it alone will free the memory, and we’re done.
 
 // When you assign a completely new value to an existing variable, Rust will call drop and free the original value’s memory immediately
-    // let mut s = String::from("hello");
-    // s = String::from("ahoy");
+// let mut s = String::from("hello");
+// s = String::from("ahoy");
 
-    // println!("{s}, world!"); -- wil print ahoy world
+// println!("{s}, world!"); -- wil print ahoy world
 // https://doc.rust-lang.org/book/img/trpl04-05.svg
-
 
 //If we do want to deeply copy the heap data of the String, not just the stack data, we can use a common method called clone
 //now s1 and s2 can be used
@@ -387,3 +375,167 @@
 //     let s2 = s1.clone();
 
 //     println!("s1 = {s1}, s2 = {s2}");
+
+// fn main() {
+//     let x = 5;
+//     let y = x;
+
+//     println!("x = {x}, y = {y}");
+// }
+
+// The reason is that types such as integers that have a known size at compile time are stored entirely on the stack,
+//  so copies of the actual values are quick to make
+
+// Ownership and Functions
+// The mechanics of passing a value to a function are similar to those when assigning a value to a variable.
+// fn main(){
+//     let s=String::from("deva");
+//     print_string(s);
+//     // println!("{}",s); // will not work since transfer of ownership
+//     let y=7;
+//     print_int(y);
+//     println!("{}",y); // this works since stored in stack
+// }
+
+// fn print_string(s:String){
+//     println!("{}",s)
+// }
+
+// fn print_int(y:i32){
+//     println!("{}",y);
+// }
+
+//Transferring ownership of return values
+
+// fn main(){
+//     let s=String::from("deva");
+//     let (s,len)=get_len(s);
+//     println!("size of {s} is: {len}");
+// }
+
+// fn get_len(s:String)->(String,usize){
+//     let length=s.len();
+//     return (s,length);
+// }
+//this is called tranferring of ownership -- to much work , to overcome it rust has a concept of references
+
+//References and Borrowing
+//A reference is like a pointer in that it’s an address we can follow to access the data stored at that address
+//hat data is owned by some other variable. Unlike a pointer.
+//a reference is guaranteed to point to a valid value of a particular type for the life of that reference.
+
+// fn main(){
+//     let s=String::from("hello");
+//     let len=get_len(&s);
+//     println!("length of {s} is {len}");
+// }
+
+// fn get_len(s:&String)->usize{
+//     return s.len();
+// }
+// references allow you to refer to some value without taking ownership of it.
+
+// Just as variables are immutable by default, so are references. We’re not allowed to modify something we have a reference to.
+// fn main() {
+//     let s = String::from("hello");
+
+//     change(&s);
+// }
+
+// fn change(some_string: &String) {
+//     some_string.push_str(", world");
+// }
+
+//this works
+// fn main() {
+//     let mut s = String::from("hello");
+
+//     change(&mut s);
+
+//     println!("{s}")
+// }
+
+// fn change(some_string: &mut String) {
+//     some_string.push_str(", world");
+// }
+
+// Mutable references have one big restriction: if you have a mutable reference to a value, you can have no other references to that value.
+//  This code that attempts to create two mutable references to s will fail:
+
+// fn main(){
+//     let mut s=String::from("hello");
+//     let s1=&mut s;
+//     let s2=&mut s; //will not work
+//     println!("{s},{s1},{s2}")
+
+// }
+
+// This error says that this code is invalid because we cannot borrow s as mutable more than once at a time.
+//  The first mutable borrow is in s1 and must last until it’s used in the println!, but between the creation of that mutable reference and its usage
+//  we tried to create another mutable reference in s2 that borrows the same data as s1.
+
+// fn main(){
+//     let mut s=String::from("hello");
+//     let s1=&mut s;
+//     println!("{s1}");
+//     let s2=&mut s;
+//     println!("{s2}") // this works since s1 is already used before creating s2
+
+// }
+//this is done to avoid race condition (Two or more pointers access the same data and changing it at the same time)
+//after a mutable reference is used we can use another one
+
+//you also cant create immutable reference after a mutable reference, till it is used.
+
+//   let mut s = String::from("hello");
+
+//     {
+//         let r1 = &mut s;
+//     } // r1 goes out of scope here, so we can make a new reference with no problems.
+
+//   let r2 = &mut s;
+
+
+//cant do this since after one mutable ref, no mutable or immutable ref is allowed
+
+// fn main(){
+//   let mut s = String::from("hello");
+
+//     let r1 = &s; // no problem
+//     let r2 = &s; // no problem
+//     let r3 = &mut s; // BIG PROBLEM
+
+// println!("{r1}, {r2}, and {r3}");
+
+// }
+
+//this works
+// fn main(){
+//     let mut s = String::from("hello");
+
+//     let r1 = &s; 
+//     let r2 = &s; 
+
+//     println!("{r1},{r2}"); //its already being used
+
+//     let r3=&mut s;
+
+//     println!("{r3}");
+// }
+
+//code can have any number of immutable references that is not a problem
+// fn main(){
+//     let s = String::from("hello");
+
+//     let r1 = &s; 
+//     let r2 = &s; 
+//     let r3 = &s; 
+//     let r4 = &s; 
+
+//     println!("{s},{r1},{r2},{r3},{r4}");
+// }
+
+// In Rust, by contrast, the compiler guarantees that references will never be dangling references: if you have a reference to some data,
+// the compiler will ensure that the data will not go out of scope before the reference to the data does.
+//recap ::At any given time, you can have either one mutable reference or any number of immutable references.
+
