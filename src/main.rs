@@ -539,3 +539,30 @@
 // the compiler will ensure that the data will not go out of scope before the reference to the data does.
 //recap ::At any given time, you can have either one mutable reference or any number of immutable references.
 
+// fn main(){
+//     let mut s=String::from("deva");
+//     s.clear();// makes s an emoty string
+//     println!("{s}");
+// }
+
+// String Slices
+// A string slice is a reference to a contiguous sequence of the elements of a String, and it looks like this:
+
+// fn main(){
+//     let s=String::from("hello world");
+//     let s1=&s[0..5];
+//     let s2=&s[6..11];
+//     let s3=&s[..5];
+//     let s4=&s[6..];
+//     println!("s1 :{s1}, s2: {s2}, s3: {s3}, s4: {s4}, s5:{s5}, s: {s}");
+// }
+// https://doc.rust-lang.org/book/img/trpl04-07.svg
+
+//slices are also in arrays
+
+// fn main(){
+//     let arr=[1,2,3,4,5];
+//     let a1=&arr[1..3];
+//     assert_eq!(a1,&[2,3]);
+//     println!("{a1:?}")
+// }
